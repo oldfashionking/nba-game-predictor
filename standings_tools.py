@@ -1,7 +1,7 @@
 from basketball_reference_web_scraper import client
 
 from basketball_reference_web_scraper import client
-from collections import defaultdict
+from collections import defaultdict, deque  # 确保导入deque
 import pandas as pd
 from datetime import datetime, timezone, timedelta
 from itertools import product
@@ -39,6 +39,8 @@ def get_nba_standings(season_end_year=2025):
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 判断胜负
         if home_score > away_score:  # 主队胜
             team_records[home_team]["wins"] += 1
@@ -78,6 +80,8 @@ def get_recent_games_standings(season_end_year=2025, recent_games=10):
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 判断胜负
         if home_score > away_score:  # 主队胜
             team_recent_games[home_team].append(1)  # 1 代表胜
@@ -120,6 +124,8 @@ def get_home_record_standings(season_end_year=2025):
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 记录主场战绩
         if home_score > away_score:  # 主队赢
             home_records[home_team]["home_wins"] += 1
@@ -158,6 +164,8 @@ def get_away_record_standings(season_end_year=2025):
         away_score = game["away_team_score"]
         home_score = game["home_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 记录客场战绩
         if away_score > home_score:  # 客队赢
             away_records[away_team]["away_wins"] += 1
@@ -196,6 +204,8 @@ def get_team_net_rating(season_end_year=2025):
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 更新球队得分数据
         team_stats[home_team]["points_scored"] += home_score
         team_stats[home_team]["points_allowed"] += away_score
@@ -240,6 +250,8 @@ def get_head_to_head_matrix(season_end_year=2025):
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
 
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         # 记录交手胜负
         if home_score > away_score:  # 主队赢
             team_matchups[home_team][away_team] += 1  # 主队 +1
@@ -289,6 +301,9 @@ def get_back_to_back_records(season_end_year=2025):
         away_team = game["away_team"]
         home_score = game["home_team_score"]
         away_score = game["away_team_score"]
+
+        if home_score is None or away_score is None:
+            continue  # 跳过得分缺失的比赛
         #print(game_time_et, home_team, away_team, home_score, away_score)
         # 检查是否为背靠背
         for team in [home_team, away_team]:
