@@ -29,27 +29,23 @@ pip install -r requirements.txt
 ```
 ## Usage
 
-1. **Data Collection**
-   - Run the script to fetch updated NBA data.
+1. **Predict Next Day Games**
 
 ```bash
-python data_collector.py
+python Next_Day_games_Predictor.py
 ```
 
-2. **Simulation**
-   - Simulate the remaining NBA season 1000 times.
+2. **Simulation the whole season for Final Rankings**
+   - Simulate the remaining NBA season 10000 times.
 
 ```bash
-python season_simulator.py
-```
-
-3. **Generate Reports**
-   - Run the report generator to analyze and present insights.
-
-```bash
-python report_generator.py
+python Season_Ranking_Simulation.py
 ```
 
 ## Data Sources
+https://www.basketball-reference.com/
 
-
+## Limitations
+- The metrics used to evaluate teams are still relatively limited.
+- The model for assessing team strength is simple and lacks theoretical support; the weight parameters are manually defined and may be less rigorous.
+- The prediction of next day's games does not account for player absences.
